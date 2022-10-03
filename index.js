@@ -7,7 +7,7 @@ var fileContent = "title_en,title_zh,url,FI,rate,rateCount,clipsCount\n";
 var perPage = 50;
 
 var countryIndex = 0;
-const countryList = ['kr', 'zh', 'jp', 'tw', 'th'];
+const countryList = ['kr', 'cn', 'jp', 'tw', 'th'];
 
 function query(page, country){
   var url = 'https://api.viki.io/v4/containers.json?page=' + page + '&per_page=50&with_paging=false&order=desc&sort=views_recent&origin_country=' + country + '&licensed=true&app=100000a';
