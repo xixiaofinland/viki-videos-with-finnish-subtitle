@@ -6,6 +6,9 @@ var fileContent = "title_en,title_zh,url,FI,rate,rateCount,clipsCount\n";
 
 var perPage = 50;
 
+var countryIndex = 0;
+const countryList = ['kr', 'zh', 'jp', 'tw', 'th'];
+
 function query(page, country){
   var url = 'https://api.viki.io/v4/containers.json?page=' + page + '&per_page=50&with_paging=false&order=desc&sort=views_recent&origin_country=' + country + '&licensed=true&app=100000a';
 
@@ -39,12 +42,18 @@ function query(page, country){
         if(result.more){
           query(page + 1, country);
         }else{
-          fs.writeFile("./result.csv", fileContent, function(err) {
-              if(err) {
-                  return console.log(err);
-              }
-              console.log("The file was saved!");
-          });
+          countryIndex++;
+          if(countryIndex < countryList.length){
+            fileContent += '\n\n\n';
+            query(1, countryList[countryIndex]);
+          }else{
+            fs.writeFile("./result.csv", fileContent, function(err) {
+                if(err) {
+                    return console.log(err);
+                }
+                console.log("The file was saved!");
+            });
+          }
         }
       });
   }).on('error', function(e){
@@ -52,4 +61,4 @@ function query(page, country){
   });
 }
 
-query(1, 'kr');
+query(1, countryList[countryIndex]);
