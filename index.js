@@ -4,11 +4,10 @@ const fs = require('fs');
 
 var fileContent = "title_en,title_zh,url,FI,rate,rateCount,clipsCount\n";
 
-var pageIndex = 1;
 var perPage = 50;
 
-function query(page, perPage){
-  var url = 'https://api.viki.io/v4/containers.json?page=' + page + '&per_page=' + perPage + '&with_paging=false&order=desc&sort=views_recent&origin_country=kr&licensed=true&app=100000a';
+function query(page, country){
+  var url = 'https://api.viki.io/v4/containers.json?page=' + page + '&per_page=50&with_paging=false&order=desc&sort=views_recent&origin_country=' + country + '&licensed=true&app=100000a';
 
   https.get(url, function(res){
       var body = '';
@@ -38,8 +37,7 @@ function query(page, perPage){
           });
 
         if(result.more){
-          pageIndex++;
-          query(pageIndex, perPage);
+          query(page + 1, country);
         }else{
           fs.writeFile("./result.csv", fileContent, function(err) {
               if(err) {
@@ -54,4 +52,4 @@ function query(page, perPage){
   });
 }
 
-query(pageIndex, perPage);
+query(1, 'kr');
