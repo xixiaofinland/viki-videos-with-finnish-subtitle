@@ -22,8 +22,8 @@ function query(page, perPage){
           result.response.forEach(r => {
             if(r.subtitle_completions.fi){
 
-              fileContent += r.titles.en + ',';
-              fileContent += r.titles.zh + ',';
+              fileContent += `\"${r.titles.en}\"` + ',';
+              fileContent += `\"${r.titles.zh}\"` + ',';
               fileContent += r.url.web + ',';
               fileContent += r.subtitle_completions.fi + ',';
               fileContent += r.review_stats.average_rating + ',';
