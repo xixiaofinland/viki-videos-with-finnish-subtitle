@@ -1,4 +1,11 @@
-# viki-videos-with-finnish-subtitle
+This tool fetches TV-series that have Finnish subtitles.
 
-This node script pulls TV-series that with finnish subtitles from viki.com API, and stores in `result.csv`.
+It contains 2 versions:
 
+- `index.js` is the old callback function way
+- `async.js` is the new async/await way
+
+They both serve the same purpose.
+
+With node installed, you can run `node index.js` to generate a `result.csv` in the same directory.
+`node async.js` needs node version18 or later. It will generate a `result2.csv`
