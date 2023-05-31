@@ -49,7 +49,6 @@ const readResponse = async function (data) {
 
 const pickData = function (data) {
   let result = "";
-  console.log(data);
   result += `\"${data.titles.en}\"` + ",";
   result += `\"${data.titles.zh}\"` + ",";
   result += data.url.web + ",";
