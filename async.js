@@ -9,16 +9,16 @@ const queryCountryList = async function (list) {
   let fileContent = "";
 
   for (const c of list) {
-    let i = 1;
-    while (true) {
+    let i = 0;
+    let hasMoreData;
+    do {
       const { result, hasMore } = await query(i, c);
       fileContent += result;
-      if (!hasMore) {
-        fileContent += "\n\n\n";
-        break;
-      }
+      hasMoreData = hasMore;
       i++;
-    }
+    } while (hasMoreData);
+
+    fileContent += "\n\n\n";
   }
   return fileContent;
 };
@@ -26,16 +26,14 @@ const queryCountryList = async function (list) {
 const query = async function (page, country) {
   const url = rootURL + page + parameters + country;
 
-  let result = "";
-
   const res = await fetch(url);
   const data = await readResponse(res);
 
-  data.response
+  const result = data.response
     .filter((d) => d.subtitle_completions.fi)
-    .forEach((d) => (result += pickData(d)));
+    .reduce((sum, d) => (sum += pickData(d)), "");
 
-  return { result: result, hasMore: data.more };
+  return { result, hasMore: data.more };
 };
 
 const readResponse = async function (data) {
@@ -55,7 +53,8 @@ const pickData = function (data) {
   result += data.subtitle_completions.fi + ",";
   result += data.review_stats.average_rating + ",";
   result += data.review_stats.count + ",";
-  result += data.clips ? data.clips.count + "\n" : "\n";
+  result += data.clips?.count ?? "";
+  result += "\n";
 
   return result;
 };
