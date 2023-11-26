@@ -1,3 +1,6 @@
+This repo is archieved. A newer version is
+[here](https://github.com/xixiaofinland/vikid), written in Rust.
+
 This tool fetches viki.com TV-series that have Finnish subtitles.
 
 It contains 2 versions:
